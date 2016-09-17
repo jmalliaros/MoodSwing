@@ -4,7 +4,9 @@
   "description": "An app that plays music depending on your mood",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node . | ./node_modules/bunyan/bin/bunyan",
+    "watch": "nodemon . | ./node_modules/bunyan/bin/bunyan"
   },
   "repository": {
     "type": "git",
