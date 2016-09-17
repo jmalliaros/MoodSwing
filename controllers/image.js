@@ -23,8 +23,9 @@ module.exports = {
       length: req.headers['content-length'],
       encoding: this.charset
     }, function (err, string) {
-        if (err)
-            return next(err)
+        if (err) {
+          res.status(500).json(err)
+        }
 
         var base64data = new Buffer(string).toString('base64')
 
