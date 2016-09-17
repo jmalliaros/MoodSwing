@@ -30,7 +30,7 @@ var initLogger = function(app) {
 
   // Per request logger
   app.use(bunyanMiddleware({
-    name: 'chevy',
+    name: 'hack',
     streams: [{
       level: 'info',
       stream: process.stdout
