@@ -77,5 +77,5 @@ var processEmotions = function(result) {
     }
   }
 
-  return emotion
+  return { emotion: emotion }
 }
