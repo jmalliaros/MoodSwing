@@ -5,4 +5,4 @@ import Header from './components/header.js'
 ReactDOM.render(
   <Header/>,
   document.getElementById('app-container')
-);
+)
