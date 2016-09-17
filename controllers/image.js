@@ -20,11 +20,11 @@ module.exports = {
    */
   post: function (req, res) {
     getRawBody(req, {
-      length: req.headers['content-length'],
-      encoding: this.charset
+      length: req.headers['content-length']
     }, function (err, string) {
         if (err) {
           res.status(500).json(err)
+          return
         }
 
         var base64data = new Buffer(string).toString('base64')
@@ -32,32 +32,34 @@ module.exports = {
         return indico.fer(base64data)
         .then(function(data) {
           res.status(200).json(processEmotions(data))
+          return
         })
         .catch(function(err) {
           res.status(500).json(err.error)
+          return
         })
+        
+        // var options = {
+        //   method: 'POST',
+        //   uri: 'https://api.projectoxford.ai/emotion/v1.0/recognize',
+        //   headers: {
+        //     'Content-Type': 'application/octet-stream',
+        //     'Ocp-Apim-Subscription-Key': '38201310d25f4271b7e80d2b28a9ba17'
+        //   },
+        //   body: base64data,
+        //   json: true
+        // }
+
+        // return request(options)
+        // .then(function(data) {
+        //   res.status(200).json(data)
+        // })
+        // .catch(function(err) {
+        //   res.status(500).json(err.error)
+        // })
       })
     }
-  
-    //   var options = {
-    //     method: 'POST',
-    //     uri: 'https://api.projectoxford.ai/emotion/v1.0/recognize',
-    //     headers: {
-    //       'Content-Type': 'application/octet-stream',
-    //       'Ocp-Apim-Subscription-Key': '38201310d25f4271b7e80d2b28a9ba17'
-    //     },
-    //     body: base64data,
-    //     json: true
-    //   }
 
-    //   return request(options)
-    //   .then(function(data) {
-    //     res.status(200).json(data)
-    //   })
-    //   .catch(function(err) {
-    //     res.status(500).json(err.error)
-    //   })
-    // })
 }
 
 /**
