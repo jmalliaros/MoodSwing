@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom'
+import Header from './components/header.js'
 
 ReactDOM.render(
-  <h2>
-    Put Shit Here.
-  </h2>,
+  <Header/>,
   document.getElementById('app-container')
 );
