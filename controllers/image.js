@@ -31,7 +31,7 @@ module.exports = {
 
         return indico.fer(base64data)
         .then(function(data) {
-          res.status(200).json(data)
+          res.status(200).json(processEmotions(data))
         })
         .catch(function(err) {
           res.status(500).json(err.error)
@@ -58,4 +58,24 @@ module.exports = {
     //     res.status(500).json(err.error)
     //   })
     // })
+}
+
+/**
+ * Takes an object of emotions and
+ * their associated values and returns
+ * the dominant one
+ * @param  {[object]} result
+ * @return {[string]}
+ */
+var processEmotions = function(result) {
+  var emotion
+  var high = 0
+
+  for (var key in result) {
+    if (result[key] > high) {
+      emotion = key
+    }
+  }
+
+  return emotion
 }
