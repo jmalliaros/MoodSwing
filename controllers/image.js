@@ -3,36 +3,40 @@
  */
 
 var fs = require('fs')
-var request = require('request-promise')
+var getRawBody = require('raw-body')
 var indico = require('indico.io')
 indico.apiKey = 'e77398fb1e34de03ac0b22d09d5fd21a'
+// var request = require('request-promise')
 
 module.exports = {
 
   /**
-   * [post description]
-   * @param  {[type]} req [description]
-   * @param  {[type]} res [description]
-   * @return {[type]}     [description]
+   * Endpoint that expects binary data for an image to be
+   * forwarded to the indico.io/azure API and analyzed.
+   * Processes the json result and returns the dominant
+   * emotion as a string.
+   * @param  {[object]} req
+   * @param  {[object]} res
    */
   post: function (req, res) {
-    fs.readFile(__dirname + '/../test_images/test-image.jpg', function(err, data) {
-      if (err) {
-        console.log(err)
-        res.status(500)
-        return
-      }
+    getRawBody(req, {
+      length: req.headers['content-length'],
+      encoding: this.charset
+    }, function (err, string) {
+        if (err)
+            return next(err)
 
-      var base64data = new Buffer(data.buffer).toString('base64')
+        var base64data = new Buffer(string).toString('base64')
 
-      return indico.fer(base64data)
-      .then(function(data) {
-        res.status(200).json(data)
+        return indico.fer(base64data)
+        .then(function(data) {
+          res.status(200).json(data)
+        })
+        .catch(function(err) {
+          res.status(500).json(err.error)
+        })
       })
-      .catch(function(err) {
-        res.status(500).json(err.error)
-      })
-    })
+    }
   
     //   var options = {
     //     method: 'POST',
@@ -53,6 +57,4 @@ module.exports = {
     //     res.status(500).json(err.error)
     //   })
     // })
-    
-  }
 }
