@@ -7,6 +7,7 @@ ReactDOM.render(
   <div>
     <Header/>
     <Video/>
+	  <SongList/>
   </div>,
   document.getElementById('app-container')
 )
