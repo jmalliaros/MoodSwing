@@ -12,10 +12,12 @@ module.exports = {
     publicPath: '/build/js'
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src/js')
-    }]
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['babel'],
+        include: path.join(__dirname, 'src/js')
+      }
+    ]
   }
 }

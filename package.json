@@ -37,6 +37,7 @@
     "indico.io": "^0.10.2",
     "lwip": "0.0.9",
     "path": "^0.12.7",
+    "plotly.js": "^1.17.2",
     "raw-body": "^2.1.7",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
@@ -45,6 +46,7 @@
     "webpack": "^1.13.2"
   },
   "devDependencies": {
+    "css-loader": "^0.25.0",
     "webpack-dev-middleware": "^1.7.0"
   }
 }

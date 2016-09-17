@@ -1,10 +1,26 @@
 import React, { Component, PropTypes } from 'react'
+import styles from './styles.css.js';
 
 class SongList extends React.Component {
+
+  constructor() {
+
+    super()
+
+    this.songs = {
+      songs:
+        [ {artist: 'Alvin', songName: 'Kung fu fighting'},
+          {artist: 'Bob', songName: 'Lollipop'},
+          {artist: 'Lil Wayne', songName: 'Sucker for Pain'}
+        ]
+    }
+  }
+
   render() {
+
     return (
-      <div>
-        <table className="striped responsive-table">
+      <div style={styles.songList} className="container">
+        <table className="striped centered responsive-table">
           <thead>
             <tr>
                 <th data-field="artistName">Artist</th>
@@ -13,22 +29,20 @@ class SongList extends React.Component {
           </thead>
 
           <tbody>
-            <tr>
-              <td>Alvin</td>
-              <td>Kung fu fighting</td>
-            </tr>
-            <tr>
-              <td>Alan</td>
-              <td>Yellow submarine</td>
-            </tr>
-            <tr>
-              <td>Jonathan</td>
-              <td>Lollipop</td>
-            </tr>
+            {this.songs.songs.map((song, index) =>
+                <tr key={index}>
+                  <td>{song.artist}</td>
+                  <td>{song.songName}</td>
+                </tr>
+            )}
           </tbody>
         </table>
+        <div style={styles.player} className="center-align">
+          <a style={styles.spacing} className="btn-floating red"><i className="material-icons">play_arrow</i></a>
+          <a style={styles.spacing} className="btn-floating yellow darken-1"><i className="material-icons">skip_next</i></a>
+        </div>
       </div>
-    )
+    );
   }
 }
 
