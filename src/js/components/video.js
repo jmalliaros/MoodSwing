@@ -7,7 +7,7 @@ class Video extends Component {
     super(props)
 
     this.snap = this.snap.bind(this)
-    this.snapInterval = 3000
+    this.snapInterval = 5000
   }
 
   componentDidMount() {
@@ -51,7 +51,7 @@ class Video extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.emotion !== this.props.emotion) {
       var player = $('#player')
-      $('#mp3Source').attr('src', 'music/' + nextProps.emotion)
+      $('#mp3Source').attr('src', 'music/' + nextProps.songIndex)
 
       player[0].pause()
       player[0].load()
