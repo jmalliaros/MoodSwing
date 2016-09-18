@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import TimerMixin from 'react-timer-mixin'
-import jic from 'j-i-c'
 import styles from './styles.css.js';
 
 class Video extends React.Component {
