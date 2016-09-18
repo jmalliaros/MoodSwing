@@ -37,10 +37,6 @@ class SongList extends React.Component {
             )}
           </tbody>
         </table>
-        <div style={styles.player} className="center-align">
-          <a style={styles.spacing} className="btn-floating red"><i className="material-icons">play_arrow</i></a>
-          <a style={styles.spacing} className="btn-floating yellow darken-1"><i className="material-icons">skip_next</i></a>
-        </div>
       </div>
     );
   }
