@@ -14,4 +14,13 @@ module.exports = function(app) {
   // Image processing endpoints
   app.get('/images', image.get)
   app.post('/images', image.post)
+
+  app.get('/music/:song', function(req, res) {
+    var song = req.params.song
+    if (!song) {
+      return res.send(404)
+    }
+
+    res.sendFile(path.join(__dirname, '../music/' + song + '.mp3'))
+  })
 }

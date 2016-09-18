@@ -7,7 +7,7 @@ class Video extends Component {
     super(props)
 
     this.snap = this.snap.bind(this)
-    this.snapInterval = 5000
+    this.snapInterval = 3000
   }
 
   componentDidMount() {
@@ -42,25 +42,36 @@ class Video extends Component {
         imageURI: dataURI
       },
       function(data, response) {
+        console.log(data)
         self.props.updateState(data)
       }
     )
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.emotion !== this.props.emotion) {
+      var player = $('#player')
+      $('#mp3Source').attr('src', 'music/' + nextProps.emotion)
+
+      player[0].pause()
+      player[0].load()
+      player[0].oncanplaythrough = player[0].play()
+    }
   }
 
   render() {
     return (
       <div className="container">
         <div className="row">
-
-          <div className="column" style={styles.topSpacing}>
-            <div className="col s6">
-              <video ref="video" height="auto" width="100%" autoPlay></video>
-            </div>
-            <div style={styles.songList} className="col s6">
-              <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380"></iframe>
+          <div className="column center-align" style={styles.topSpacing}>
+            <video ref="video" height="auto" width="50%" autoPlay></video>
+            <div className="row center-align" >
+              <audio id="player" controls="controls">
+                <source id="mp3Source" type="audio/mp3"></source>
+                Your browser does not support the audio format.
+              </audio>
             </div>
           </div>
-
           <div className="col s6">
             <canvas ref="canvas" height="300" width="300" style={styles.hidden}></canvas>
           </div>

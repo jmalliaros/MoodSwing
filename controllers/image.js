@@ -7,27 +7,171 @@ var indico = require('indico.io')
 indico.apiKey = 'e77398fb1e34de03ac0b22d09d5fd21a'
 var request = require('request-promise')
 var path = require('path')
+var faceEmotion = [];
+var c = [1,1,1,1,1,1,1,1,1,1,0.2];
+var mood = 0;
+var dur = 0;
+var songMood = [];
+var lastValue = 1;
+var songIndex = 0;
 
-var songFeatures = { audio_features: 
-   [ { "danceability": 0.808,
-       "energy": 0.626,
-       "key": 7,
-       "loudness": -12.733,
-       "mode": 1,
-       "speechiness": 0.168,
-       "acousticness": 0.00187,
-       "instrumentalness": 0.159,
-       "liveness": 0.376,
-       "valence": 0.369,
-       "tempo": 123.99,
-       "type": "audio_features",
-       "id": "4JpKVNYnVcJ8tuMKjAj50A",
-       "uri": "spotify:track:4JpKVNYnVcJ8tuMKjAj50A",
-       "track_href": "https://api.spotify.com/v1/tracks/4JpKVNYnVcJ8tuMKjAj50A",
-       "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/WhpYUARk1kNJ_qP0AdKGcDDFKOQTTgsOoINrqyPQjkUnbteuuBiyj_u94iFCSGzdxGiwqQ6d77f4QLL_8=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=JRE8SDZStpNOdUsPN/PoS49FMtQ%3D",
-       "duration_ms": 535223,
-       "time_signature": 4 
-     }]}
+var songlist = ["song1","song1","song1","song1","song1","song1","song1"]; //mp3 files
+
+//obtained using feature request in spotify
+var songFeatures = {
+  "audio_features" : [ {
+    "danceability" : 0.463,
+    "energy" : 0.804,
+    "key" : 4,
+    "loudness" : -5.222,
+    "mode" : 0,
+    "speechiness" : 0.140,
+    "acousticness" : 0.0697,
+    "instrumentalness" : 0.00873,
+    "liveness" : 0.0659,
+    "valence" : 0.215,
+    "tempo" : 139.904,
+    "type" : "audio_features",
+    "id" : "6ce17pZwsMcYNab5IaC5MQ",
+    "uri" : "spotify:track:6ce17pZwsMcYNab5IaC5MQ",
+    "track_href" : "https://api.spotify.com/v1/tracks/6ce17pZwsMcYNab5IaC5MQ",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/6ce17pZwsMcYNab5IaC5MQ",
+    "duration_ms" : 189973,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.307,
+    "energy" : 0.425,
+    "key" : 11,
+    "loudness" : -8.924,
+    "mode" : 0,
+    "speechiness" : 0.0372,
+    "acousticness" : 0.271,
+    "instrumentalness" : 0.0000309,
+    "liveness" : 0.110,
+    "valence" : 0.136,
+    "tempo" : 108.693,
+    "type" : "audio_features",
+    "id" : "2nMeu6UenVvwUktBCpLMK9",
+    "uri" : "spotify:track:2nMeu6UenVvwUktBCpLMK9",
+    "track_href" : "https://api.spotify.com/v1/tracks/2nMeu6UenVvwUktBCpLMK9",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/2nMeu6UenVvwUktBCpLMK9",
+    "duration_ms" : 236053,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.682,
+    "energy" : 0.595,
+    "key" : 5,
+    "loudness" : -11.860,
+    "mode" : 1,
+    "speechiness" : 0.0376,
+    "acousticness" : 0.0185,
+    "instrumentalness" : 0.00837,
+    "liveness" : 0.344,
+    "valence" : 0.661,
+    "tempo" : 125.982,
+    "type" : "audio_features",
+    "id" : "1DXK8xsl8K7guWFRbddoVv",
+    "uri" : "spotify:track:1DXK8xsl8K7guWFRbddoVv",
+    "track_href" : "https://api.spotify.com/v1/tracks/1DXK8xsl8K7guWFRbddoVv",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/1DXK8xsl8K7guWFRbddoVv",
+    "duration_ms" : 239341,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.732,
+    "energy" : 0.396,
+    "key" : 4,
+    "loudness" : -9.348,
+    "mode" : 0,
+    "speechiness" : 0.0286,
+    "acousticness" : 0.0841,
+    "instrumentalness" : 0.0000358,
+    "liveness" : 0.105,
+    "valence" : 0.547,
+    "tempo" : 90.024,
+    "type" : "audio_features",
+    "id" : "6i0V12jOa3mr6uu4WYhUBr",
+    "uri" : "spotify:track:6i0V12jOa3mr6uu4WYhUBr",
+    "track_href" : "https://api.spotify.com/v1/tracks/6i0V12jOa3mr6uu4WYhUBr",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/6i0V12jOa3mr6uu4WYhUBr",
+    "duration_ms" : 195920,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.748,
+    "energy" : 0.524,
+    "key" : 8,
+    "loudness" : -5.599,
+    "mode" : 1,
+    "speechiness" : 0.0338,
+    "acousticness" : 0.414,
+    "instrumentalness" : 0,
+    "liveness" : 0.111,
+    "valence" : 0.635,
+    "tempo" : 95.010,
+    "type" : "audio_features",
+    "id" : "7BKLCZ1jbUBVqRi2FVlTVw",
+    "uri" : "spotify:track:7BKLCZ1jbUBVqRi2FVlTVw",
+    "track_href" : "https://api.spotify.com/v1/tracks/7BKLCZ1jbUBVqRi2FVlTVw",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/7BKLCZ1jbUBVqRi2FVlTVw",
+    "duration_ms" : 244960,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.647,
+    "energy" : 0.924,
+    "key" : 10,
+    "loudness" : -4.957,
+    "mode" : 1,
+    "speechiness" : 0.330,
+    "acousticness" : 0.250,
+    "instrumentalness" : 0,
+    "liveness" : 0.519,
+    "valence" : 0.608,
+    "tempo" : 173.962,
+    "type" : "audio_features",
+    "id" : "15JINEqzVMv3SvJTAXAKED",
+    "uri" : "spotify:track:15JINEqzVMv3SvJTAXAKED",
+    "track_href" : "https://api.spotify.com/v1/tracks/15JINEqzVMv3SvJTAXAKED",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/15JINEqzVMv3SvJTAXAKED",
+    "duration_ms" : 263373,
+    "time_signature" : 4
+  }, {
+    "danceability" : 0.923,
+    "energy" : 0.508,
+    "key" : 1,
+    "loudness" : -8.668,
+    "mode" : 1,
+    "speechiness" : 0.0468,
+    "acousticness" : 0.104,
+    "instrumentalness" : 0.0000121,
+    "liveness" : 0.126,
+    "valence" : 0.193,
+    "tempo" : 108.039,
+    "type" : "audio_features",
+    "id" : "4bdJHQp90ymjEIkkYhcENB",
+    "uri" : "spotify:track:4bdJHQp90ymjEIkkYhcENB",
+    "track_href" : "https://api.spotify.com/v1/tracks/4bdJHQp90ymjEIkkYhcENB",
+    "analysis_url" : "https://api.spotify.com/v1/audio-analysis/4bdJHQp90ymjEIkkYhcENB",
+    "duration_ms" : 126667,
+    "time_signature" : 4
+  } ]
+}
+
+
+function init(){
+    //fill songmood array for each song
+    for(var i = 0; i < songlist.length; i++) {
+       songMood.push(((c[6]*songFeatures.audio_features[i].danceability 
+            +c[7]*songFeatures.audio_features[i].mode
+            +c[8]*songFeatures.audio_features[i].tempo
+            +c[9]*songFeatures.audio_features[i].valence)
+            /Math.sqrt(Math.pow(songFeatures.audio_features[i].danceability,2)
+                      +Math.pow(songFeatures.audio_features[i].mode,2)
+                      +Math.pow(songFeatures.audio_features[i].tempo,2)
+                      +Math.pow(songFeatures.audio_features[i].valence,2))-1)*10);
+    }
+    console.log(songMood);
+}
+
+init();
 
 module.exports = {
 
@@ -71,7 +215,6 @@ module.exports = {
         },
         body: {
           url: 'https://0e295bdc.ngrok.io/images'
-
         },
         json: true
       }
@@ -79,16 +222,17 @@ module.exports = {
       return request(options)
       .then(function(data) {
         data = data[0]
-        var faceEmotion = []
+
+        if (!data) {
+          return res.sendStatus(200).json(data)
+        }
+
         var c = [1,1,1,1,1,1,1,1,1,1,0.2]
         var mood = 0
         var dur = 0
         var songMood = 0
-        //console.log('azure data:', data)
- 
-        faceEmotion = data
-        //console.log(faceEmotion[0].scores.happiness*100)
-          
+        data.emotion = dominantEmotion(data)
+
         //Mathematical Model for mood from face
         mood = c[0]*data.scores.happiness
                 -c[1]*data.scores.sadness
@@ -97,25 +241,34 @@ module.exports = {
                 +c[4]*data.scores.surprise
                 +c[10]
         
-        console.log("mood: " + mood)
         data.mood = mood
         
-        //alter duration based on satisfaction 
-        dur = c[5]*data.scores.contempt
-                *data.scores.neutral / data.scores.disgust
+        // alter duration based on satisfaction 
+        // dur = c[5]*data.scores.contempt
+        //         *data.scores.neutral / data.scores.disgust
         
-        console.log(dur + " seconds")
-        //console.log(songFeatures.audio_features[0])
-        songMood = c[6]*songFeatures.audio_features[0].danceability 
-                    +c[7]*songFeatures.audio_features[0].mode
-                    +c[8]*songFeatures.audio_features[0].tempo
-                    +c[9]*songFeatures.audio_features[0].valence
+        console.log(dur + " seconds");
         
-        console.log("song mood: " + songMood)
+        //for each song, check if mood is close to song mood 
+        songMood.forEach(function(el, i, arr) {
+            
+            if (Math.abs(mood-el) < lastValue){
+                lastValue = Math.abs(mood-el);
+                console.log(mood-el);
+                songIndex = i;
+            }
+            if (i = arr.length - 1){
+                //return songIdex
+                console.log(songIndex);
+            }
+        });  
+        
+        console.log("song mood: " + songMood);
+
         res.status(200).json(data)
       })
       .catch(function(err) {
-        console.log('error:', err.error)
+        console.log('error:', err)
         res.status(500).json(err.error)
       })
       
@@ -143,15 +296,21 @@ module.exports = {
  * @param  {[object]} result
  * @return {[string]}
  */
-var processEmotions = function(result) {
+var dominantEmotion = function(result) {
+  if (!result) {
+    return
+  }
+
   var emotion
   var high = 0
+  var scores = result.scores
 
-  for (var key in result) {
-    if (result[key] > high) {
+  for (var key in scores) {
+    if (scores[key] > high) {
       emotion = key
+      high = scores[key]
     }
   }
 
-  return { emotion: emotion }
+  return emotion
 }
