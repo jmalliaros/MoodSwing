@@ -10,7 +10,7 @@ var bunyanMiddleware = require('express-bunyan-logger')
 var initLogger = function(app) {
 
   var logger = bunyan.createLogger({
-    name: 'chevy',
+    name: 'hack',
     stream: process.stdout
   })
 

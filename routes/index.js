@@ -12,5 +12,6 @@ module.exports = function(app) {
   })
 
   // Image processing endpoints
+  app.get('/images', image.get)
   app.post('/images', image.post)
 }
