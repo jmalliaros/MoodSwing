@@ -7,7 +7,7 @@ class Video extends Component {
     super(props)
 
     this.snap = this.snap.bind(this)
-    this.snapInterval = 5000
+    this.snapInterval = 3000
   }
 
   componentDidMount() {
@@ -50,15 +50,12 @@ class Video extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.emotion !== this.props.emotion) {
-      console.log('changing song')
       var player = $('#player')
-      console.log(player)
       $('#mp3Source').attr('src', 'music/' + nextProps.emotion)
 
       player[0].pause()
       player[0].load()
       player[0].oncanplaythrough = player[0].play()
-      console.log('song changed to:', nextProps.emotion)
     }
   }
 
@@ -66,17 +63,15 @@ class Video extends Component {
     return (
       <div className="container">
         <div className="row">
-
-          <div className="column" style={styles.topSpacing}>
-            <div className="col s6">
-              <video ref="video" height="auto" width="100%" autoPlay></video>
+          <div className="column center-align" style={styles.topSpacing}>
+            <video ref="video" height="auto" width="50%" autoPlay></video>
+            <div className="row center-align" >
+              <audio id="player" controls="controls">
+                <source id="mp3Source" type="audio/mp3"></source>
+                Your browser does not support the audio format.
+              </audio>
             </div>
-            <audio id="player" controls="controls">
-              <source id="mp3Source" type="audio/mp3"></source>
-              Your browser does not support the audio format.
-            </audio>
           </div>
-
           <div className="col s6">
             <canvas ref="canvas" height="300" width="300" style={styles.hidden}></canvas>
           </div>
