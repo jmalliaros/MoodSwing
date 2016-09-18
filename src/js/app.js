@@ -6,7 +6,7 @@ import Video from './components/video.js';
 import styles from './components/styles.css.js';
 
 ReactDOM.render(
-  <div style={styles.backgroundImg} className="column">
+  <div className="column">
 	  <Header/>
 	  <Video/>
 	  <Graph/>

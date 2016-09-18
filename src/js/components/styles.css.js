@@ -1,9 +1,5 @@
 //CSS here    
 export default {
-	
-	backgroundImg: {
-		background: 'url("http://free.wallpaperbackgrounds.com/abstract/artistic/172475-1300.jpg")'
-	},
 
 	topSpacing: {
 		marginTop: '50px'
@@ -15,7 +11,7 @@ export default {
 
 	graphContainer: {
 		width: '80%',
-		padding: '50px'
+		padding: '0 50px 50px 50px'
 	},
 
 	spacing: {
