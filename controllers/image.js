@@ -7,11 +7,6 @@ var indico = require('indico.io')
 indico.apiKey = 'e77398fb1e34de03ac0b22d09d5fd21a'
 var request = require('request-promise')
 var path = require('path')
-var faceEmotion = [];
-var c = [1,1,1,1,1,1,1,1,1,1,0.2];
-var mood = 0;
-var dur = 0;
-var songMood = 0;
 
 var songFeatures = { audio_features: 
    [ { "danceability": 0.808,
@@ -32,7 +27,7 @@ var songFeatures = { audio_features:
        "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/WhpYUARk1kNJ_qP0AdKGcDDFKOQTTgsOoINrqyPQjkUnbteuuBiyj_u94iFCSGzdxGiwqQ6d77f4QLL_8=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=JRE8SDZStpNOdUsPN/PoS49FMtQ%3D",
        "duration_ms": 535223,
        "time_signature": 4 
-     }]};
+     }]}
 
 module.exports = {
 
@@ -63,7 +58,7 @@ module.exports = {
 
     fs.writeFile(__dirname + '/../uploads/out.png', base64Data, 'base64', function(err) {
       if (err) {
-        console.log(err);
+        console.log(err)
         return res.status(500).json(err.error)
       } 
       
@@ -75,7 +70,7 @@ module.exports = {
           'Ocp-Apim-Subscription-Key': '38201310d25f4271b7e80d2b28a9ba17'
         },
         body: {
-          url: 'http://b8de3098.ngrok.io/images'
+          url: 'https://0e295bdc.ngrok.io/images'
 
         },
         json: true
@@ -83,34 +78,40 @@ module.exports = {
 
       return request(options)
       .then(function(data) {
-        //console.log('azure data:', data);
+        data = data[0]
+        var faceEmotion = []
+        var c = [1,1,1,1,1,1,1,1,1,1,0.2]
+        var mood = 0
+        var dur = 0
+        var songMood = 0
+        //console.log('azure data:', data)
  
-        faceEmotion = data;
-        //console.log(faceEmotion[0].scores.happiness*100);
+        faceEmotion = data
+        //console.log(faceEmotion[0].scores.happiness*100)
           
         //Mathematical Model for mood from face
-        mood = c[0]*faceEmotion[0].scores.happiness
-                -c[1]*faceEmotion[0].scores.sadness
-                -c[2]*faceEmotion[0].scores.anger
-                -c[3]*faceEmotion[0].scores.fear
-                +c[4]*faceEmotion[0].scores.surprise
-                +c[10];
+        mood = c[0]*data.scores.happiness
+                -c[1]*data.scores.sadness
+                -c[2]*data.scores.anger
+                -c[3]*data.scores.fear
+                +c[4]*data.scores.surprise
+                +c[10]
         
-        console.log("mood: " + mood);
+        console.log("mood: " + mood)
+        data.mood = mood
         
         //alter duration based on satisfaction 
-        dur = c[5]*faceEmotion[0].scores.contempt
-                *faceEmotion[0].scores.neutral
-                /faceEmotion[0].scores.disgust;
+        dur = c[5]*data.scores.contempt
+                *data.scores.neutral / data.scores.disgust
         
-        console.log(dur + " seconds");
-        //console.log(songFeatures.audio_features[0]);
+        console.log(dur + " seconds")
+        //console.log(songFeatures.audio_features[0])
         songMood = c[6]*songFeatures.audio_features[0].danceability 
                     +c[7]*songFeatures.audio_features[0].mode
                     +c[8]*songFeatures.audio_features[0].tempo
-                    +c[9]*songFeatures.audio_features[0].valence;
+                    +c[9]*songFeatures.audio_features[0].valence
         
-        console.log("song mood: " + songMood);
+        console.log("song mood: " + songMood)
         res.status(200).json(data)
       })
       .catch(function(err) {
@@ -119,7 +120,7 @@ module.exports = {
       })
       
       
-    });
+    })
       
     
 

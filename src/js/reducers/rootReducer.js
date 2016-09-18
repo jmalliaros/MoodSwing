@@ -1,15 +1,17 @@
 const initialState = {
   scores: {},
   faceRectangle: {},
-  songList: []
+  songList: [],
+  time: 0
 }
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case 'UPDATE_STATE':
-      return Object.assign({}, state, action.data);
+      state.time += 5
+      return Object.assign({}, state, action.data)
       break;
     default:
-      return state;
+      return state
   }
 }
