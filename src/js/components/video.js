@@ -46,9 +46,16 @@ class Video extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="center-align" style={styles.topSpacing}>
-            <video ref="video" height="480" autoPlay></video>
+
+          <div className="column" style={styles.topSpacing}>
+            <div className="col s6">
+              <video ref="video" height="480" width="500px" autoPlay></video>
+            </div>
+            <div style={styles.songList} className="col s5 right-align">
+              <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380"></iframe>
+            </div>
           </div>
+
           <div className="col s6">
             <canvas ref="canvas" height="300" width="300" style={styles.hidden}></canvas>
           </div>

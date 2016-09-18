@@ -1,16 +1,21 @@
 //CSS here    
 export default {
- 	songList: {
-	    padding: '50px',
-		width: '80%'
+	
+	backgroundImg: {
+		background: 'url("http://free.wallpaperbackgrounds.com/abstract/artistic/172475-1300.jpg")'
 	},
 
 	topSpacing: {
 		marginTop: '50px'
 	},
 
+	border: {
+		border: 'solid thin grey'
+	},
+
 	graphContainer: {
-		width: '80%'
+		width: '80%',
+		padding: '50px'
 	},
 
 	spacing: {

@@ -15,7 +15,8 @@ class Graph extends React.Component {
           
           x: ['Happy', 'Sad', 'Anger', 'Fear', 'Surprise', 'Neutral', 'Disgust', 'Contempt'],
           y: [Math.random(), Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()],
-          type: 'bar'
+          type: 'bar',
+          fill: 'tonexty'
       }];
 
       var moodData = [{
@@ -60,7 +61,7 @@ class Graph extends React.Component {
   render() {
 
     return (
-      <div style={styles.graphContainer} className="container">
+      <div style={styles.graphContainer} className="container center-align">
         <div id="currentMood"></div>
         <div id="moodGraph"></div>
       </div>
