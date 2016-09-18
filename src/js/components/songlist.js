@@ -20,6 +20,7 @@ class SongList extends React.Component {
 
     return (
       <div style={styles.songList} className="container">
+        <iframe src="https://embed.spotify.com/?uri=spotify:user:erebore:playlist:788MOXyTfcUb1tdw4oC7KJ" width="100%" height="80" frameborder="0" allowtransparency="true"></iframe>
         <table className="striped centered responsive-table">
           <thead>
             <tr>
