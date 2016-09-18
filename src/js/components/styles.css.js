@@ -5,6 +5,10 @@ export default {
 		width: '80%'
 	},
 
+	topSpacing: {
+		marginTop: '50px'
+	},
+
 	graphContainer: {
 		width: '80%'
 	},

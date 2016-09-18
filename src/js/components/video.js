@@ -46,7 +46,7 @@ class Video extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s6">
+          <div className="center-align" style={styles.topSpacing}>
             <video ref="video" height="480" autoPlay></video>
           </div>
           <div className="col s6">
