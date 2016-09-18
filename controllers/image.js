@@ -49,7 +49,7 @@ module.exports = {
           'Ocp-Apim-Subscription-Key': '38201310d25f4271b7e80d2b28a9ba17'
         },
         body: {
-          url: 'https://1e6f118a.ngrok.io/images'
+          url: 'https://0e295bdc.ngrok.io/images'
         },
         json: true
       }
