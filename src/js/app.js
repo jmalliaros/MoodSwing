@@ -1,16 +1,25 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import Header from './components/header.js';
-import SongList from './components/songlist.js';
-import Graph from './components/graph.js';
-import Video from './components/video.js';
+import { Provider } from 'react-redux'
+import Container from './container.js'
+import configureStore from './configureStore.js'
+
+let store = configureStore()
+
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Container/>
+      </Provider>
+    );
+  }
+}
 
 ReactDOM.render(
-  <div>
-	  <Header/>
-	  <Video/>
-	  <SongList/>
-	  <Graph/>
-  </div>,
+  <App/>,
   document.getElementById('app-container')
 )
+
+
+

@@ -76,6 +76,7 @@ module.exports = {
         },
         body: {
           url: 'http://b8de3098.ngrok.io/images'
+
         },
         json: true
       }

@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import TimerMixin from 'react-timer-mixin'
 import styles from './styles.css.js';
 
-class Video extends React.Component {
+class Video extends Component {
   constructor(props) {
     super(props)
 
     this.snap = this.snap.bind(this)
-    this.snapInterval = 6000
+    this.snapInterval = 5000
   }
 
   componentDidMount() {
@@ -22,10 +22,12 @@ class Video extends React.Component {
       })
     }
 
+    this.snap
     TimerMixin.setInterval(this.snap, this.snapInterval)
   }
 
   snap() {
+    var self = this
     var video = this.refs.video
     var canvas = this.refs.canvas
     var context = canvas.getContext('2d')
@@ -38,6 +40,9 @@ class Video extends React.Component {
       'http://localhost:5000/images',
       {
         imageURI: dataURI
+      },
+      function(data, response) {
+        self.props.updateState(data[0])
       }
     )
   }
