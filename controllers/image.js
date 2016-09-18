@@ -8,27 +8,6 @@ indico.apiKey = 'e77398fb1e34de03ac0b22d09d5fd21a'
 var request = require('request-promise')
 var path = require('path')
 
-var songFeatures = { audio_features: 
-   [ { "danceability": 0.808,
-       "energy": 0.626,
-       "key": 7,
-       "loudness": -12.733,
-       "mode": 1,
-       "speechiness": 0.168,
-       "acousticness": 0.00187,
-       "instrumentalness": 0.159,
-       "liveness": 0.376,
-       "valence": 0.369,
-       "tempo": 123.99,
-       "type": "audio_features",
-       "id": "4JpKVNYnVcJ8tuMKjAj50A",
-       "uri": "spotify:track:4JpKVNYnVcJ8tuMKjAj50A",
-       "track_href": "https://api.spotify.com/v1/tracks/4JpKVNYnVcJ8tuMKjAj50A",
-       "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/WhpYUARk1kNJ_qP0AdKGcDDFKOQTTgsOoINrqyPQjkUnbteuuBiyj_u94iFCSGzdxGiwqQ6d77f4QLL_8=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=JRE8SDZStpNOdUsPN/PoS49FMtQ%3D",
-       "duration_ms": 535223,
-       "time_signature": 4 
-     }]}
-
 module.exports = {
 
   /**
@@ -71,7 +50,6 @@ module.exports = {
         },
         body: {
           url: 'https://0e295bdc.ngrok.io/images'
-
         },
         json: true
       }
@@ -79,16 +57,17 @@ module.exports = {
       return request(options)
       .then(function(data) {
         data = data[0]
-        var faceEmotion = []
+
+        if (!data) {
+          return res.sendStatus(200).json(data)
+        }
+
         var c = [1,1,1,1,1,1,1,1,1,1,0.2]
         var mood = 0
         var dur = 0
         var songMood = 0
-        //console.log('azure data:', data)
- 
-        faceEmotion = data
-        //console.log(faceEmotion[0].scores.happiness*100)
-          
+        data.emotion = dominantEmotion(data)
+
         //Mathematical Model for mood from face
         mood = c[0]*data.scores.happiness
                 -c[1]*data.scores.sadness
@@ -97,25 +76,23 @@ module.exports = {
                 +c[4]*data.scores.surprise
                 +c[10]
         
-        console.log("mood: " + mood)
         data.mood = mood
         
-        //alter duration based on satisfaction 
-        dur = c[5]*data.scores.contempt
-                *data.scores.neutral / data.scores.disgust
+        // alter duration based on satisfaction 
+        // dur = c[5]*data.scores.contempt
+        //         *data.scores.neutral / data.scores.disgust
         
-        console.log(dur + " seconds")
         //console.log(songFeatures.audio_features[0])
-        songMood = c[6]*songFeatures.audio_features[0].danceability 
-                    +c[7]*songFeatures.audio_features[0].mode
-                    +c[8]*songFeatures.audio_features[0].tempo
-                    +c[9]*songFeatures.audio_features[0].valence
-        
-        console.log("song mood: " + songMood)
+        // songMood = c[6]*songFeatures.audio_features[0].danceability 
+        //             +c[7]*songFeatures.audio_features[0].mode
+        //             +c[8]*songFeatures.audio_features[0].tempo
+        //             +c[9]*songFeatures.audio_features[0].valence        
+        // console.log("song mood: " + songMood)
+
         res.status(200).json(data)
       })
       .catch(function(err) {
-        console.log('error:', err.error)
+        console.log('error:', err)
         res.status(500).json(err.error)
       })
       
@@ -143,15 +120,21 @@ module.exports = {
  * @param  {[object]} result
  * @return {[string]}
  */
-var processEmotions = function(result) {
+var dominantEmotion = function(result) {
+  if (!result) {
+    return
+  }
+
   var emotion
   var high = 0
+  var scores = result.scores
 
-  for (var key in result) {
-    if (result[key] > high) {
+  for (var key in scores) {
+    if (scores[key] > high) {
       emotion = key
+      high = scores[key]
     }
   }
 
-  return { emotion: emotion }
+  return emotion
 }

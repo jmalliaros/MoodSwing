@@ -42,9 +42,24 @@ class Video extends Component {
         imageURI: dataURI
       },
       function(data, response) {
+        console.log(data)
         self.props.updateState(data)
       }
     )
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.emotion !== this.props.emotion) {
+      console.log('changing song')
+      var player = $('#player')
+      console.log(player)
+      $('#mp3Source').attr('src', 'music/' + nextProps.emotion)
+
+      player[0].pause()
+      player[0].load()
+      player[0].oncanplaythrough = player[0].play()
+      console.log('song changed to:', nextProps.emotion)
+    }
   }
 
   render() {
@@ -56,9 +71,10 @@ class Video extends Component {
             <div className="col s6">
               <video ref="video" height="auto" width="100%" autoPlay></video>
             </div>
-            <div style={styles.songList} className="col s6">
-              <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380"></iframe>
-            </div>
+            <audio id="player" controls="controls">
+              <source id="mp3Source" type="audio/mp3"></source>
+              Your browser does not support the audio format.
+            </audio>
           </div>
 
           <div className="col s6">
