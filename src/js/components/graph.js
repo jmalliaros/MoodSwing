@@ -10,21 +10,23 @@ class Graph extends React.Component {
 
   componentDidMount(){
 
-      var mood1 = {
-          x: [1, 2, 3, 4], 
-          y: [10, 15, 13, 17], 
+
+      var currentMood = [{
+          type: 'bar',
+          x: ['Happy', 'Sad', 'Anger', 'Fear', 'Surprise', 'Neutral', 'Disgust', 'Contempt'],
+          y: [Math.random(), Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()],
+      }];
+
+      var moodData = [{
+          x: [new Date().getTime() / 1000], 
+          y: [Math.random()], 
           mode: 'lines+markers',
-          name: 'Mood 1'
-        };
+          type: 'scatter',
+          name: 'Mood'
+      }];
 
-      var mood2 = {
-        x: [1, 2, 3, 4], 
-        y: [16, 5, 11, 9], 
-        mode: 'lines+markers',
-        name: 'Mood 2'
-      };
 
-      var layout = {
+      var moodLayout = {
         title: 'Mood vs Time',
         xaxis: {
           title: 'Time'
@@ -34,17 +36,22 @@ class Graph extends React.Component {
         }
       };
 
-      var data = [mood1, mood2];
-      Plotly.plot('moodGraph', data, layout); 
+      var currentLayout = {
+        title: 'Current Mood',
+      };
+
+      Plotly.plot('currentMood', currentMood, currentLayout);
+      Plotly.plot('moodGraph', moodData, moodLayout);
+      
 
       setInterval(function(){
         var update = {
-          x: [[ new Date().getTime() / 1000 ]],
+          x: [[new Date().getTime() / 1000 ]],
           y: [[ Math.random() ]]
         };
         
-          Plotly.extendTraces('moodGraph', update, [0], 10);
-      }, 1000);
+          Plotly.extendTraces('moodGraph', update, [0], 50);
+      }, 5000);
   }
 
 
@@ -52,6 +59,7 @@ class Graph extends React.Component {
 
     return (
       <div style={styles.graphContainer} className="container">
+        <div id="currentMood"></div>
         <div id="moodGraph"></div>
       </div>
     )

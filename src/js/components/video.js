@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import TimerMixin from 'react-timer-mixin'
 import jic from 'j-i-c'
+import styles from './styles.css.js';
 
 class Video extends React.Component {
   constructor(props) {
@@ -82,10 +83,10 @@ class Video extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col s6">
-            <video ref="video" width="640" height="480" autoPlay></video>
+            <video ref="video" height="480" autoPlay></video>
           </div>
           <div className="col s6">
-            <canvas ref="canvas" width="640" height="480"></canvas>
+            <canvas ref="canvas" height="480" style={styles.hidden}></canvas>
           </div>
           <img ref="target_img"></img>
         </div>
