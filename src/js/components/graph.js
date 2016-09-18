@@ -12,9 +12,10 @@ class Graph extends React.Component {
 
 
       var currentMood = [{
-          type: 'bar',
+          
           x: ['Happy', 'Sad', 'Anger', 'Fear', 'Surprise', 'Neutral', 'Disgust', 'Contempt'],
           y: [Math.random(), Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()],
+          type: 'bar'
       }];
 
       var moodData = [{
@@ -37,7 +38,8 @@ class Graph extends React.Component {
       };
 
       var currentLayout = {
-        title: 'Current Mood',
+        barmode: 'group',
+        title: 'Current Mood'
       };
 
       Plotly.plot('currentMood', currentMood, currentLayout);
