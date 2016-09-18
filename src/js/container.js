@@ -22,7 +22,7 @@ class Container extends Component {
       <div>
         <Header/>
         <Video updateState={ this.updateState }/>
-        <Graph scores={ this.props.scores }/>
+        <Graph scores={ this.props.scores } mood={ this.props.mood } time={ this.props.time }/>
       </div>
     )
   }
@@ -31,6 +31,8 @@ class Container extends Component {
 Container.propTypes = {
   scores: PropTypes.object,
   faceRectangle: PropTypes.object,
+  mood: PropTypes.number,
+  time: PropTypes.time,
   songList: PropTypes.array
 }
 
@@ -38,6 +40,8 @@ function mapStateToProps(state) {
   return {
     scores: state.scores,
     faceRectangle: state.faceRectangle,
+    mood: state.mood,
+    time: state.time,
     songList: state.songList
   }
 }

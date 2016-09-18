@@ -42,7 +42,7 @@ class Video extends Component {
         imageURI: dataURI
       },
       function(data, response) {
-        self.props.updateState(data[0])
+        self.props.updateState(data)
       }
     )
   }
@@ -54,9 +54,9 @@ class Video extends Component {
 
           <div className="column" style={styles.topSpacing}>
             <div className="col s6">
-              <video ref="video" height="480" width="550" autoPlay></video>
+              <video ref="video" height="auto" width="100%" autoPlay></video>
             </div>
-            <div style={styles.songList} className="col s6 right-align">
+            <div style={styles.songList} className="col s6">
               <iframe src="https://embed.spotify.com/?uri=spotify:user:spotify:playlist:3rgsDhGHZxZ9sB9DQWQfuf" width="300" height="380"></iframe>
             </div>
           </div>
