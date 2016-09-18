@@ -1,16 +1,17 @@
 //CSS here    
 export default {
- 	songList: {
-	    padding: '50px',
-		width: '80%'
-	},
 
 	topSpacing: {
 		marginTop: '50px'
 	},
 
+	border: {
+		border: 'solid thin grey'
+	},
+
 	graphContainer: {
-		width: '80%'
+		width: '80%',
+		padding: '0 50px 50px 50px'
 	},
 
 	spacing: {

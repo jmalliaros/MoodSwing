@@ -202,7 +202,7 @@ module.exports = {
 
     fs.writeFile(__dirname + '/../uploads/out.png', base64Data, 'base64', function(err) {
       if (err) {
-        console.log(err);
+        console.log(err)
         return res.status(500).json(err.error)
       } 
       
@@ -214,37 +214,41 @@ module.exports = {
           'Ocp-Apim-Subscription-Key': '38201310d25f4271b7e80d2b28a9ba17'
         },
         body: {
-          url: 'http://b8de3098.ngrok.io/images'
-
+          url: 'https://0e295bdc.ngrok.io/images'
         },
         json: true
       }
 
       return request(options)
       .then(function(data) {
-        //console.log('azure data:', data);
- 
-        faceEmotion = data;
-        //console.log(faceEmotion[0].scores.happiness*100);
-          
+        data = data[0]
+
+        if (!data) {
+          return res.sendStatus(200).json(data)
+        }
+
+        var c = [1,1,1,1,1,1,1,1,1,1,0.2]
+        var mood = 0
+        var dur = 0
+        var songMood = 0
+        data.emotion = dominantEmotion(data)
+
         //Mathematical Model for mood from face
-        mood = c[0]*faceEmotion[0].scores.happiness
-                -c[1]*faceEmotion[0].scores.sadness
-                -c[2]*faceEmotion[0].scores.anger
-                -c[3]*faceEmotion[0].scores.fear
-                +c[4]*faceEmotion[0].scores.surprise
-                +c[10];
+        mood = c[0]*data.scores.happiness
+                -c[1]*data.scores.sadness
+                -c[2]*data.scores.anger
+                -c[3]*data.scores.fear
+                +c[4]*data.scores.surprise
+                +c[10]
         
-        console.log("mood: " + mood);
+        data.mood = mood
         
-        //alter duration based on satisfaction 
-        dur = c[5]*faceEmotion[0].scores.contempt
-                *faceEmotion[0].scores.neutral
-                /faceEmotion[0].scores.disgust;
+        // alter duration based on satisfaction 
+        // dur = c[5]*data.scores.contempt
+        //         *data.scores.neutral / data.scores.disgust
         
         console.log(dur + " seconds");
         
-          
         //for each song, check if mood is close to song mood 
         songMood.forEach(function(el, i, arr) {
             
@@ -260,15 +264,16 @@ module.exports = {
         });  
         
         console.log("song mood: " + songMood);
+
         res.status(200).json(data)
       })
       .catch(function(err) {
-        console.log('error:', err.error)
+        console.log('error:', err)
         res.status(500).json(err.error)
       })
       
       
-    });
+    })
       
     
 
@@ -291,15 +296,21 @@ module.exports = {
  * @param  {[object]} result
  * @return {[string]}
  */
-var processEmotions = function(result) {
+var dominantEmotion = function(result) {
+  if (!result) {
+    return
+  }
+
   var emotion
   var high = 0
+  var scores = result.scores
 
-  for (var key in result) {
-    if (result[key] > high) {
+  for (var key in scores) {
+    if (scores[key] > high) {
       emotion = key
+      high = scores[key]
     }
   }
 
-  return { emotion: emotion }
+  return emotion
 }

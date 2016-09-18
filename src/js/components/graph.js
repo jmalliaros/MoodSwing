@@ -12,13 +12,14 @@ class Graph extends React.Component {
 
       var currentMood = [{
           x: ['Happy', 'Sad', 'Anger', 'Fear', 'Surprise', 'Neutral', 'Disgust', 'Contempt'],
-          y: [0, 0, 0, 0, 0, 0, 0, 0],
-          type: 'bar'
-      }]
+          y: [0, 0, 0, 0, 0, 0, 0, 0],           
+          type: 'bar',
+          fill: 'tonexty'
+      }];
 
       var moodData = [{
-          x: [new Date().getTime() / 1000], 
-          y: [Math.random()], 
+          x: [0], 
+          y: [0], 
           mode: 'lines+markers',
           type: 'scatter',
           name: 'Mood'
@@ -42,16 +43,6 @@ class Graph extends React.Component {
 
       Plotly.plot('currentMood', currentMood, currentLayout)
       Plotly.plot('moodGraph', moodData, moodLayout)
-      
-
-      setInterval(function(){
-        var update = {
-          x: [[new Date().getTime() / 1000 ]],
-          y: [[ Math.random() ]]
-        }
-        
-          Plotly.extendTraces('moodGraph', update, [0], 50)
-      }, 5000)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,6 +69,15 @@ class Graph extends React.Component {
       }]
 
       Plotly.newPlot('currentMood', currentMood, currentLayout)
+
+      if (nextProps.mood && nextProps.time) {
+        var updateMood = {
+            x: [[ nextProps.time ]],
+            y: [[ nextProps.mood ]]
+          }
+          
+        Plotly.extendTraces('moodGraph', updateMood, [0], 50)
+      }
     }
   }
 
@@ -85,7 +85,7 @@ class Graph extends React.Component {
   render() {
 
     return (
-      <div style={styles.graphContainer} className="container">
+      <div style={styles.graphContainer} className="container center-align">
         <div id="currentMood"></div>
         <div id="moodGraph"></div>
       </div>

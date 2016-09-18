@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Header from './components/header.js'
-import SongList from './components/songlist.js'
 import Graph from './components/graph.js'
 import Video from './components/video.js'
 import { updateState} from './actions'
@@ -22,9 +21,8 @@ class Container extends Component {
     return (
       <div>
         <Header/>
-        <Video updateState={ this.updateState }/>
-        <SongList/>
-        <Graph scores={ this.props.scores }/>
+        <Video updateState={ this.updateState } emotion={ this.props.emotion } />
+        <Graph scores={ this.props.scores } mood={ this.props.mood } time={ this.props.time } />
       </div>
     )
   }
@@ -33,14 +31,18 @@ class Container extends Component {
 Container.propTypes = {
   scores: PropTypes.object,
   faceRectangle: PropTypes.object,
-  songList: PropTypes.array
+  mood: PropTypes.number,
+  time: PropTypes.number,
+  emotion: PropTypes.string
 }
 
 function mapStateToProps(state) {
   return {
     scores: state.scores,
     faceRectangle: state.faceRectangle,
-    songList: state.songList
+    mood: state.mood,
+    time: state.time,
+    emotion: state.emotion
   }
 }
 
