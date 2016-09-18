@@ -6,7 +6,6 @@ export default {
 	},
 
 	graphContainer: {
-		paddingTop: '50px',
 		width: '80%'
 	},
 
@@ -15,7 +14,11 @@ export default {
 	},
 
 	player: {
-		marginTop: '30px',
+		marginTop: '30px'
 	},
+
+	hidden: {
+		display: 'none'
+	}
 
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import TimerMixin from 'react-timer-mixin'
 import jic from 'j-i-c'
+import styles from './styles.css.js';
 
 class Video extends React.Component {
   constructor(props) {
@@ -44,15 +45,16 @@ class Video extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="container">
-          <video ref="video" width="640" height="480" autoPlay></video>
-          <canvas ref="canvas" width="300" height="300"></canvas>
+      <div className="container">
+        <div className="row">
+          <div className="col s6">
+            <video ref="video" height="480" autoPlay></video>
+          </div>
+          <div className="col s6">
+            <canvas ref="canvas" height="300" width="300" style={styles.hidden}></canvas>
+          </div>
           <img ref="target_img"></img>
         </div>
-        <form id="uploader" method="post" encType="multipart/form-data" action="http://localhost:5000/images">
-          <input ref="image_upload" type="file"></input>
-        </form>
       </div>
     )
   }
