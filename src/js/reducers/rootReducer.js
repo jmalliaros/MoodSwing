@@ -3,7 +3,8 @@ const initialState = {
   faceRectangle: {},
   mood: 0,
   time: 0,
-  emotion: ''
+  emotion: '',
+  songIndex: 0
 }
 
 export default function rootReducer(state = initialState, action) {
